@@ -1,24 +1,32 @@
 section .data
-	format db "The square of %d is %d\n", 0
+    greeting db "Hello World!", 10, 0
 
 section .text
-    extern printf
-    extern func
+    extern square
+	extern print
     global _start
 
 _start:
-	; call the function
+	; call square function
 	mov rdi, 5
-	call func
+	call square
 
-	; check if result is correct
+	; check result
 	cmp rax, 25
 	jne exit_1
 
+	;; --------------------------------
+
+	; call the print function
+	mov rsi, greeting
+	call print
+
+	;; --------------------------------
+
     ; exit
-    mov     rax, 60
-    xor     rdi, rdi
-    syscall   
+    mov rax, 60
+    xor rdi, rdi
+    syscall
 	jmp eof
 
 exit_1:
@@ -26,6 +34,6 @@ exit_1:
 	mov rax, 60
 	mov rdi, 1
 	syscall
-	jmp eof      
+	jmp eof
 
 eof:

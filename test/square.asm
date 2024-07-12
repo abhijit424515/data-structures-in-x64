@@ -1,7 +1,7 @@
 section .text
-	global func
+	global square
 
-func:
+square:
 	mov rax, rdi
 	imul rax, rdi
 	ret
