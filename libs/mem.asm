@@ -1,47 +1,6 @@
 section .text
-	global print
-	global strlen
 	global malloc
 	global free
-
-;; --------------------------------
-
-strlen:
-	;; rsi = pointer to string (char*)
-	;; returns length of string in rax
-
-	xor rax, rax				; init length as 0
-
-.loop:
-	cmp byte [rsi + rax], 0		; check if string terminated
-	je .end						; if null, end loop
-	add rax, 1					; increment length
-	jmp .loop
-
-.end:
-	ret
-
-;; --------------------------------
-
-print:
-	;; rsi = pointer to string (char*)
-
-	push rdx		; save rdx
-	push rdi		; save rdi
-	push rax		; save rax
-
-	call strlen		; get length of string
-	
-	mov rdx, rax	; set string length for syscall
-	mov rdi, 1		; file descriptor 1 (stdout)
-	mov rax, 1		; syscall write
-	syscall
-
-	pop rax			; restore rax
-	pop rdi			; restore rdi
-	pop rdx			; restore rdx
-
-	ret
 
 ;; --------------------------------
 
@@ -70,6 +29,8 @@ malloc:
 	pop rdi			; restore rdi
 
 	ret
+
+;; --------------------------------
 
 free:
 	;; rdi = pointer to memory to free
